@@ -1,12 +1,12 @@
 {
   "build": {
-    "devPath": "http://127.0.0.1:5500/index.html",
-    "distDir": "../src",
+    "devPath": "http://127.0.0.1:5500/code-editor.html",
+    "distDir": "../frontend",
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "rust-desktop-app-template",
-    "version": "0.0.1"
+    "productName": "PL-SQL-IDE",
+    "version": "0.0.2"
   },
   "tauri": {
     "allowlist": {
@@ -18,7 +18,7 @@
     },
     "windows": [
       {
-        "title": "Rust Desktop App Template",
+        "title": "PL-SQL-IDE",
         "width": 1280,
         "height": 720
       }

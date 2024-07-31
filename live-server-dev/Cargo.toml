@@ -1,0 +1,8 @@
+[package]
+name = "live-server-dev"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+live-server = "0.6.2"
+tokio = { version = "1.0.0", features = ["rt", "rt-multi-thread", "macros"] }

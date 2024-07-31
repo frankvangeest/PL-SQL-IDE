@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Editor</title>
+  <link rel="stylesheet" href="code-editor.css">
+</head>
+<body>
+  <div class="project-tree">
+    <h3>My Project</h3>
+    <ul id="file-tree">
+      <li onclick="loadContent('file_1.sql', 'tab1')">file_1.sql</li>
+      <li onclick="loadContent('file_2.sql', 'tab2')">file_2.sql</li>
+      <li onclick="loadContent('file_3.sql', 'tab3')">file_3.sql</li>
+    </ul>
+  </div>
+  <div class="container">
+    <div id="file-tabs" class="tabs">
+      <button class="tab-button active" id="tab1"     onclick="loadContent('file_1.sql', 'tab1')">file_1.sql</button>
+      <button class="tab-button"        id="tab2"     onclick="loadContent('file_2.sql', 'tab2')">file_2.sql</button>
+      <button class="tab-button"        id="tab3"     onclick="loadContent('file_3.sql', 'tab3')">file_3.sql</button>
+      <button class="tab-button"        id="new-tab"  onclick="createNewFile()">+</button>
+    </div>
+    <div id="editor" class="editor">
+      <div class="line-numbers" id="line-numbers"></div>
+      <pre id="code" class="code-editor" contenteditable="true"></pre>
+    </div>
+    <button id="save-button">Save</button>
+  </div>
+  <script src="code-editor.js"></script>
+  <script src="backend_communication.js"></script>
+</body>
+</html>

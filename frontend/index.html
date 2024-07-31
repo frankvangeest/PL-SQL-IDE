@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <link rel="stylesheet" href="/lib/icons.css" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PL-SQL IDE</title>
+
+    <script type="module" src="/main.js" defer></script>
+    
+    <style>
+      /* Layout */
+      html, body {
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          margin: 0;
+          overflow: hidden;
+      }
+
+      body div,
+      body ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+      }
+
+      .windowbar {
+        height: 40px;
+        width: 100%;
+
+        border: 1px solid red;
+      }
+
+      .window-menu {
+        height: 100%;
+        width: 30%;
+        float: left;
+      }
+
+      .quick-top-menu {
+        height: 100%;
+        float: left;
+      }
+
+      .window-controls {
+        height: 100%;
+        width: 120px;
+        float: right;
+      }
+
+      .window-controls li a {
+        float: right;
+        color: white;
+        text-align: center;
+        padding: 8px;
+        text-decoration: none;
+      }
+
+      .windowbar button,
+      .app-logo {
+        height: 100%;
+      }
+
+      .action-menubar {
+        height: 40px;
+        width: 100%;
+
+        border: 1px solid purple;
+      }
+
+      #left-sidebar {
+        position: absolute;
+        top: 88px;
+        left: 0px;
+        bottom: 34px;
+        width: 40px;
+      }
+
+      #right-sidebar {
+        position: absolute;
+        top: 88px;
+        right: 0px;
+        bottom: 34px;
+        width: 40px;
+      }
+
+      #content-container {
+        position: absolute;
+        top: 88px;
+        left: 40px;
+        right: 40px;
+        bottom: 40px;
+        border: 1px solid yellow;
+      }
+
+      #left-sidebar-content,
+      #right-sidebar-content {
+        float:left;
+        width: 20%;
+        height: 100%;
+        border: 1px solid darkgreen;
+      }
+
+      #middle-content {
+        float: left;
+        width: 59%;
+        height: 100%;
+
+        border: 1px solid blue;
+      }
+
+      .page-tabs {
+        float: left;
+      }
+
+      #pages {
+        width: 100%;
+        height: 100%;
+      }
+
+      .bottombar {
+        height: 32px;
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+
+        border: 1px solid red;
+      }
+
+      .bottombar-item {
+        height: 100%;
+        width: 120px;
+      }
+
+      /* Functions */
+      .hide {
+        display: none;
+      }
+
+      /* Colors */
+      body {
+        background-color: grey;
+      }
+
+      body div {
+        border: 1px solid lightgrey;
+      }
+
+      body ul {
+        border: 1px solid blue;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <!-- <div class="dialog" data-role="dialog" id="demoDialog1">
+      <div class="dialog-actions v-menu">
+        <button class="button js-dialog-close"><span class="mif-ross mif-2x"></span> Restore</button>
+        <button class="button js-dialog-close"><span class="mif-cross mif-2x"></span> Minimize</button>
+        <button class="button js-dialog-close"><span class="mif-cross mif-2x"></span> Maximize</button>
+        <button class="button primary js-dialog-close"><span class="mif-cross mif-2x"></span> Close</button>
+      </div>
+    </div> -->
+
+    <div class="layout">
+
+      <div class="windowbar">
+        <div class="window-menu">
+          <button class="button" onclick="Metro.dialog.open('#demoDialog1')">
+            <img src="/assets/tauri.svg" class="app-logo" alt="App logo"/>
+          </button>
+          <button class="button" onclick="Metro.dialog.open('#demoDialog1')">
+            <span class="mif-lines mif-4x icon"></span>
+          </button>
+        </div>
+        <ul class="quick-top-menu">
+          <li><a href="#"><span class="mif-lines mif-4x"></span></a></li>
+        </ul>
+        <ul class="window-controls">
+          <li><a href="#"><span class="mif-minus mif-2x"></span></a></li>
+          <li><a href="#"><span class="mif-enlarge mif-2x"></span></a></li>
+          <li><a href="#"><span class="mif-cross mif-2x"></span></a></li>
+        </ul>
+      </div>
+
+      <div class="action-menubar">
+        <div class="menubar-action">New</div>
+      </div>
+
+      <ul id="left-sidebar" class="">
+        <li><span class="mif-home mif-2x icon"></span>&nbsp;</li>
+        <li><span class="mif-home mif-2x icon"></span>&nbsp;</li>
+      </ul>
+
+      <ul id="right-sidebar" class="">
+        <li><span class="mif-home mif-2x icon"></span>&nbsp;</li>
+        <li><span class="mif-home mif-2x icon"></span>&nbsp;</li>
+      </ul>
+
+      <div id="content-container">
+
+        <div id="left-sidebar-content">
+          <div id="left-sidebar-1" class="left-sidebar">
+            <p class="p-4">File</p>
+          </div>
+          <div id="left-sidebar-2" class="left-sidebar hide">
+            <p class="p-4">Quick bar</p>
+          </div>
+        </div>
+  
+        <div id="middle-content">
+          <ul class="page-tabs">
+              <li class="page-tab active"><a href="#page001">Page 1</a></li>
+              <li class="page-tab "><a href="#page002">Page 2</a></li>
+              <!-- <li><a href="#page003">Page 3</a></li> -->
+              <!-- <li><a href="#page004">Page 4</a></li> -->
+              <!-- <li><a href="#page005">Page 5</a></li> -->
+              <!-- <li><a href="#page006">Page 6</a></li> -->
+          </ul>
+          <div id="pages">
+              <div id="page001" w3-include-html="\page\001.html" class="page" ></div>
+              <div id="page002" w3-include-html="\page\002.html" class="page hide" ></div>
+              <!-- <div id="page003" w3-include-html="\page\003.html"></div> -->
+              <!-- <div id="page004" w3-include-html="\page\004.html"></div> -->
+              <!-- <div id="page005" w3-include-html="\page\005.html"></div> -->
+              <!-- <div id="page006" w3-include-html="\page\006.html"></div> -->
+          </div>
+          <label for="my_progressbar">Progressbar:</label>
+<progress id="my_progressbar" value="0" max="100"></progress>
+        </div>
+  
+        <div id="right-sidebar-content">
+          <div id="right-sidebar-1" class="right-sidebar">
+            <p class="p-4">File</p>
+          </div>
+          <div id="right-sidebar-2" class="right-sidebar hide">
+            <p class="p-4">Quick bar</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="bottombar">
+        <div class="bottombar-item">bottom bar</div>
+      </div>
+
+    </div>
+
+
+
+    <!-- <script src="/lib/metro.js"></script> -->
+    <script>
+      function includeHTML() {
+        let z, i, elmnt, file, xhttp;
+        /* Loop through a collection of all HTML elements: */
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+          elmnt = z[i];
+          /*search for elements with a certain attribute:*/
+          file = elmnt.getAttribute("w3-include-html");
+          if (file) {
+            /* Make an HTTP request using the attribute value as the file name: */
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (this.readyState === 4) {
+                if (this.status === 200) {elmnt.innerHTML = this.responseText;}
+                if (this.status === 404) {elmnt.innerHTML = "Page not found.";}
+                /* Remove the attribute, and call this function once more: */
+                elmnt.removeAttribute("w3-include-html");
+                includeHTML();
+              }
+            }
+            xhttp.open("GET", file, true);
+            xhttp.send();
+            /* Exit the function: */
+            return;
+          }
+        }
+      }
+      includeHTML();
+    </script>
+  </body>
+</html>
