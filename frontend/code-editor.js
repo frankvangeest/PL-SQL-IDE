@@ -116,9 +116,9 @@ function createNewFile() {
     
     // Add the new file before the + tab
     const newTabButton = document.getElementById('new-tab');
-    console.log('newTabButton', newTabButton);
-    console.log('tabs', tabs);
     const fileTabs = document.getElementById('file-tabs');
+    console.log('newTabButton', newTabButton);
+    console.log('fileTabs', fileTabs);
     if (newTabButton && fileTabs) {
       fileTabs.insertBefore(newTab, newTabButton);
     } else {

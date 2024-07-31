@@ -7,7 +7,7 @@ My POC for minimalistic PL-SQL editor windows desktop application, written in Ru
 
 All the frontend stuff is in the frontend folder. E.g. html, css, javascript, and images/icons, etc.
 For the live service development, just 'cargo run' the live-server-dev project.
-Go to http://127.0.0.1:5500/index.html or http://127.0.0.1:5500/code-editor.html
+Go to http://127.0.0.1:5500/code-editor.html
 Or build the backend in debug, and make sure the tauri.conf.json "build": {
     "devPath": "http://127.0.0.1:5500/code-editor.html",
 } is set to the live-server url.

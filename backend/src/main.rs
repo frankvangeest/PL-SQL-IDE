@@ -3,9 +3,7 @@
 
 use std::env;
 use std::{thread, time};
-use std::fmt;
 use tauri::Window;
-// use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
 use serde::Deserialize;
 use std::fs::{self, File};
 use std::io::prelude::*;
@@ -23,12 +21,6 @@ struct ContentPayload {
 #[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
-#[tauri::command]
-fn my_actions(command: &str, options: &str, data: &str) -> String  {
-    println!("Received command '{}' with options '{}' and data '{}'.", command, options, data);
-    "Command received!".into()
 }
 
 #[tauri::command]
@@ -66,7 +58,6 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             greet,
-            my_actions,
             do_with_progress,
             save_content
         ])
