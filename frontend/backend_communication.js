@@ -33,4 +33,4 @@ async function saveEditorContent() {
 }
 
 // Attach event listeners to UI elements (if any) to trigger backend communication
-document.getElementById('save-button').addEventListener('click', saveEditorContent);
+document.getElementById('editor-save-button').addEventListener('click', saveEditorContent);
