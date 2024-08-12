@@ -9,9 +9,19 @@
 <body>
 
   <div id="top-container" class="horizontal-container">
-    <div class="action-bar">
+    <div id="menu-widget" class="horizontal-action-bar">
       <button id="menu-button" class="action-bar-button" title="Menu">
-        <img src="assets/icons/menu.svg" alt="Menu" class="svg-icon">
+        <img src="assets/icons/menu.svg" alt="Menu" class="svg-icon" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
+      </button>
+    </div>
+    <div id="connection-widget" class="horizontal-action-bar">
+      <button id="menu2-button" class="action-bar-button" title="Menu">
+        <img src="assets/icons/connect.svg" alt="Menu" class="svg-icon" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
+      </button>
+    </div>
+    <div id="top-right-widget" class="horizontal-action-bar">
+      <button id="menu3-button" class="action-bar-button" title="Menu">
+        <img src="assets/icons/something.svg" alt="Menu" class="svg-icon" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
       </button>
     </div>
   </div>
@@ -19,16 +29,25 @@
   <div id="middle-container"  class="horizontal-container">
 
     <div class="col col-1">
-      <div class="vertical-action-bar">
+      <div id="left-action-bar" class="vertical-action-bar">
         <button id="connections-button" class="action-bar-button" title="DB Connections">
-          <img src="assets/icons/connections.svg" alt="DB Connections">
+          <img src="assets/icons/connections.svg" alt="DB Connections" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
         </button>
         <button id="project-files-button" class="action-bar-button" title="Project-files">
-          <img src="assets/icons/project-files.svg" alt="Project Files" class="svg-icon-fallback">
+          <img src="assets/icons/project-files.svg" alt="Project Files" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
         </button>
-        <div class="action-bar-button svg-icon-fallback" style="width: 24px; height: 24px;">
-
-        </div>
+        <button id="test-fallback-icon-button" class="action-bar-button" title="Test fallback icon image">
+          <span class="">
+            <img src="assets/icons/no-image.svg" alt="Test fallback icon image" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
+          </span>
+        </button>
+        <button id="test-fallback-icon-button2" class="action-bar-button" title="Test fallback icon image 2">
+          <img src="assets/icons/no-image.svg" alt="Test fallback icon image 2" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
+        </button>
+        <button id="test-fallback-icon-button3" class="action-bar-button" title="Test fallback icon image 3">
+          <img src="assets/icons/no-image.svg" alt="Test fallback icon image 3" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
+        </button>
+       
       </div>
     </div>
 
@@ -52,16 +71,19 @@
           <button class="tab-button"        id="tab3"     onclick="loadContent('file_3.sql', 'tab3')">file_3.sql</button>
           <button class="tab-button"        id="new-tab"  onclick="createNewFile()">+</button>
         </div>
-        <div id="editor-action-bar" class="horizontal-actionbar">
-          <button id="connect-button" class="icon">Connect</button>
-          <button id="run-button"     class="icon">Run</button>
-          <button id="save-button"    class="icon">Save</button>
+        <div id="editor-action-bar" class="horizontal-action-bar">
+          <button id="editor-run-button" class="action-bar-button" title="Run file">
+            <img src="assets/icons/run.svg" alt="Run file" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
+          </button>
+          <button id="editor-save-button" class="action-bar-button" title="Save file">
+            <img src="assets/icons/save.svg" alt="Save file" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';" onclick="saveContent()">
+          </button>
         </div>
         <div id="editor" class="editor">
           <div class="line-numbers" id="line-numbers"></div>
           <pre id="code" class="code-editor" contenteditable="true"></pre>
         </div>
-        <div id="editor-info-bar" class="horizontal-actionbar">
+        <div id="editor-info-bar" class="horizontal-action-bar">
           <p>File status ...</p>
         </div>
       </div>
@@ -80,12 +102,12 @@
     </div>
 
     <div class="col col-5">
-      <div class="vertical-action-bar">
+      <div id="right-action-bar" class="vertical-action-bar">
         <button id="notifications-button" class="action-bar-button" title="Notifications">
-          <img src="assets/icons/notifications.svg" alt="Notifications">
+          <img src="assets/icons/notifications.svg" alt="Notifications" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
         </button>
         <button id="smart-assistant-button" class="action-bar-button" title="Smart Assistant">
-          <img src="assets/icons/smart-assistant.svg" alt="Smart Assistant">
+          <img src="assets/icons/smart-assistant.svg" alt="Smart Assistant" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
         </button>
       </div>
     </div>

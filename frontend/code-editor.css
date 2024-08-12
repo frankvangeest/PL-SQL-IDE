@@ -89,6 +89,24 @@ html, body {
   color: #D4D4D4;
 }
 
+#top-container .horizontal-container {
+  padding: 10px;
+}
+
+
+
+#menu-widget {
+  width: 30%;
+}
+
+#connection-widget {
+  width: 40%;
+}
+
+#top-right-widget {
+  width: 30%;
+}
+
 .action-bar-button {
   background: none;
   width: 24px;
@@ -119,39 +137,16 @@ html, body {
   margin-right: 5px;
 }
 
-.vertical-action-bar .svg-icon { 
-  width: 100%;
+#top-container .horizontal-action-bar .action-bar-button,
+#top-container .horizontal-action-bar .action-bar-button img {
+  height: 32px;
+  width: 32px;
+  padding: 3px;
 }
 
-
-/* Example style for icons */
-.icon {
-  margin: 5px;
-  font-size: 16px;
-  color: #D4D4D4; /* Muted color for icons */
-  cursor: pointer;
-}
-
-.icon:hover {
-  color: #FFFFFF; /* Bright color on hover */
-}
-
-.svg-icon {
-  filter: brightness(0) invert(50%); /* Default color */
-  transition: filter 0.3s ease;
-  cursor: pointer;
-}
-
-.svg-icon:hover {
-  color: #FFFFFF; /* Bright color on hover */
-}
-
-.svg-icon-fallback {
-	background-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="17" r="1" fill="%23000000"/><path d="M12 10L12 14" stroke="%23000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.44722 18.1056L10.2111 4.57771C10.9482 3.10361 13.0518 3.10362 13.7889 4.57771L20.5528 18.1056C21.2177 19.4354 20.2507 21 18.7639 21H5.23607C3.7493 21 2.78231 19.4354 3.44722 18.1056Z" stroke="%23000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-}
 
 /* Additional overflow control for any content within the bars */
-.action-bar, .info-bar {
+.info-bar {
   display: flex;
   align-items: center;
   overflow: hidden; /* Prevent overflow in the top and bottom bars */
@@ -164,16 +159,6 @@ html, body {
   text-overflow: ellipsis; /* Handle text overflow with ellipsis */
   color: #D4D4D4; /* Muted color for text */
 }
-
-/* .bar-button-img {
-  filter: brightness(0) invert(50%);
-  transition: filter 0.2s ease;
-}
-
-.bar-button-img:active,
-.bar-button-img:hover {
-  filter: brightness(0) invert(80%);
-} */
 
 /* Project Tree */
 .project-tree {
@@ -248,21 +233,17 @@ html, body {
 
 #editor-action-bar {
   background-color: #2A2A2A;
+  padding-left: 32px;
 }
 
-#editor-action-bar button {
-  background-color: #2A2A2A;
-  padding: 3px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-radius: 5px;
-  font-size: x-small;
-  box-shadow: none;
-}
-
-#editor-action-bar button:hover {
-  background-color: #ccc;
-  color: #2A2A2A;
+#editor-action-bar button, 
+#editor-action-bar button img {
+  width: 18px;
+  height: 18px;
+  padding: 2px;
+  padding-right: 0;
+  padding-left: 0;
+  margin: 0;
 }
 
 #editor-info-bar {

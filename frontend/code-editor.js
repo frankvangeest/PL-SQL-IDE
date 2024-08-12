@@ -307,23 +307,26 @@ function createNewFile() {
   }
 }
 
+// function applyFallbackIcons(fallbackSrc) {
+//   // Select all button elements with an img element inside
+//   const buttons = document.querySelectorAll('button img');
+//   console.log('querySelectorAll(button img): ', buttons);
+//   console.log('fallbackSrc: ', fallbackSrc)
 
+//   buttons.forEach(img => {
+//       // Add an error event listener to each img element
+//       img.onerror = () => {this.onerror=null; this.src='assets/icons/fallback-icon.svg';};
+//       console.log('img: ', img);
+//   });
+//   console.log('Fallback Icons Applied.')
+// }
 
 // Initialize line numbers and load the content of the active tab on page load
-window.onload = function() {
+window.onload = () => {
   loadContent(activeTab, 'tab1');
   updateLineNumbers();
-
-  // Example usage
-  const csvUrl = 'http://localhost:5500/data/PLSQL-build-in-types.csv';
-
-  parseCSVFromUrl(csvUrl)
-    .then(parsedData => {
-      sql_types = parsedData;
-      console.log(parsedData); // Array of objects representing each row
-    })
-    .catch(error => {
-      // Handle any errors that occurred during parsing
-      console.error('Failed to parse CSV:', error);
-    });
 };
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   applyFallbackIcons('assets/icons/fallback-icon.svg');
+// });
