@@ -33,6 +33,10 @@ struct SQLPayload {
     sql: String,
 }
 
+/// Converts an `oracle::Error` to a `String`
+fn error_to_string(error: oracle::Error) -> String {
+    error.to_string()
+}
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -60,19 +64,55 @@ fn save_content(payload: ContentPayload) -> Result<String, String> {
     file.write_all(payload.content.as_bytes())
         .map_err(|e:std::io::Error| format!("Couldn't write to file: {}", e))?;
     
-    Ok(format!("Content saved to {}", file_path.display()))
+    Ok(format!("Content saved to {}.", file_path.display()))
 }
 
 #[tauri::command]
 fn db_connect(payload: ConnectionPayload) -> Result<String, String> {
     println!("db_connect(): ConnectionPayload '{:?}'", payload);
-    Ok(format!("Content saved to {}", "done"))
+    
+    let connection_result: Result<oracle::Connection, oracle::Error> = connect_to_oracle(payload.username.as_str(), payload.password.as_str(), payload.database.as_str());
+    match connection_result {
+        Ok(connection) => {
+            println!("Connection succeeded.");
+            let version_result: Result<(oracle::Version, String), oracle::Error> = connection.server_version();
+            match version_result {
+                Ok((server_ver,banner)) => {
+                    // println!("\nDatabase Server Version: {}", version);
+                    println!("\nDatabase Server Version: {}", server_ver);
+                    println!("\nServer Banner: {}\n", banner);
+                },
+                Err(e) => {
+                    // Use the custom conversion function
+                    // let error_string = error_to_string(e);
+                    println!("Operation failed: {}", e);
+                }
+            }
+        },
+        Err(e) => {
+            // Use the custom conversion function
+            let error_string = error_to_string(e);
+            println!("Operation failed: {}", error_string);
+        }
+    }
+
+
+
+    // let conn = connect_to_oracle(payload.username.as_str(), payload.password.as_str(), payload.database.as_str())?;
+    // let (server_ver, banner) = conn.server_version()?;
+
+    // println!("\nDatabase Server Version: {}", server_ver);
+    // println!("\nServer Banner: {}\n", banner);
+
+    // Ok(format!("\nDatabase Server Version: {}\nServer Banner: {}\n", server_ver, banner))
+
+    Ok(format!("db_connect {}", "done"))
 }
 
 #[tauri::command]
 fn db_query(payload: SQLPayload) -> Result<String, String> {
     println!("db_query(): SQLPayload '{:?}'", payload);
-    Ok(format!("Content saved to {}", "done"))
+    Ok(format!("db_query {}", "done"))
 }
 
 fn main() {
