@@ -3,7 +3,7 @@
 
 use std::env;
 use std::{thread, time};
-use tauri::{Window, State};
+use tauri::{Window, State, AppHandle, Manager};
 use std::sync::Mutex;
 use serde::Deserialize;
 use std::fs::{self, File};
@@ -149,24 +149,45 @@ fn db_connect(state: State<DbConnection>, payload: ConnectionPayload) -> Result<
 // }
 
 #[tauri::command]
-fn db_query(state: State<DbConnection>, payload: SQLPayload) -> Result<String, String> {
+fn db_query(app_handle: tauri::AppHandle, state: State<DbConnection>, payload: SQLPayload) -> Result<String, String> {
     println!("db_query(): '{:?}'", payload);
+    app_handle.emit_all("backend-event", "db_query()").unwrap();
 
     let mut connection = state.connection.lock().unwrap();
     
     // If a connection exists, close it
     if let Some(conn) = connection.take() {
         println!("Connection exists. execute_query...");
-        
+        app_handle.emit_all("backend-event", "Connection exists. execute_query...").unwrap();
+
         // let sql = "select count(asg_id) cnt from aansluitingen";
         let (column_names, rows) = execute_query(&conn, payload.sql.as_str())
                                                             .map_err(|e| format!("Query failed: {}", e))?;
     
         // Print the column names
         println!("{:?}", column_names.join(", "));
+        app_handle.emit_all("backend-event", column_names.join(", ")).unwrap();
     
         // Display the result set
-        display_result_set(rows);
+        // display_result_set(rows);
+        
+        for row in rows {
+            let mut row_str = String::new(); // Use a mutable String
+        
+            for (idx, val) in row.sql_values().iter().enumerate() {
+                if idx != 0 {
+                    row_str.push_str(", "); // Concatenate the comma separator
+                    print!(", ");
+                }
+        
+                row_str.push_str(&format!("{}", val)); // Append the value to the row string
+                print!("{}", val);
+            }
+        
+            app_handle.emit_all("backend-event", row_str).unwrap(); // Emit the row string
+            println!(); // Print a newline
+        }
+        
     }
 
     Ok(format!("db_query {}", "done"))

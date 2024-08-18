@@ -28,6 +28,10 @@ async function sendDataToBackend(eventName, data) {
 function handleTauriEvent(event) {
   console.log('Received event from backend:', event);
   // Process the event data as needed
+  var ul = document.getElementById("console-output-list");
+  var li = document.createElement("li");
+  li.appendChild(document.createTextNode(event.payload));
+  ul.appendChild(li);
 }
 
 // Set up the event listener for Tauri events
@@ -53,7 +57,7 @@ async function connectToOracleDB() {
 }
 
 async function runSQL() {
-  const sql = 'select 1 from dual;';
+  const sql = codeEditor.innerText;
   await sendDataToBackend('db_query', { sql });
 }
 

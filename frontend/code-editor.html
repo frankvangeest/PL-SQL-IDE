@@ -94,19 +94,28 @@
     </div>
 
     <div class="col col-4">
-        <div class="notifications-list">
-          <h2>Notifications</h2>
-          <hr>
-          <ul>
-            <li>Notification 1</li>
-            <li>Notification 2</li>
-            <li>Notification 3</li>
-          </ul>
-        </div>
+      <div id="console-output">
+        <h2>Console Output</h2>
+        <hr>
+        <ul id="console-output-list">
+        </ul>
+      </div>
+      <div id="notifications-list" class="notifications-list hide">
+        <h2>Notifications</h2>
+        <hr>
+        <ul>
+          <li>Notification 1</li>
+          <li>Notification 2</li>
+          <li>Notification 3</li>
+        </ul>
+      </div>
     </div>
 
     <div class="col col-5">
       <div id="right-action-bar" class="vertical-action-bar">
+        <button id="console-output-button" class="action-bar-button" title="Console Output">
+          <img src="assets/icons/console.svg" alt="Console Output" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
+        </button>
         <button id="notifications-button" class="action-bar-button" title="Notifications">
           <img src="assets/icons/notifications.svg" alt="Notifications" onerror="this.onerror=null; this.src='assets/icons/fallback-icon.svg';">
         </button>

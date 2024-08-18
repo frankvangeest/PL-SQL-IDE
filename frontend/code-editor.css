@@ -297,6 +297,10 @@ html, body {
   color: #D4D4D4;
 }
 
+.hide {
+  display: none;
+}
+
 /* PL/SQL Syntax Highlighting */
 .keyword {
   color: #1986d3;
