@@ -49,6 +49,9 @@ Tasks:
     - User preferences (WIP)
     - tnsnames.ora (WSA)
 - Saving user preferences backend (WIP)
+- Syntax highlighting
+  - Basic PL-SQL and SQL code highlighting (Done)
+  - insert statement highlighting, when clicking on the value, the corresponding column lights up.
 
 
 

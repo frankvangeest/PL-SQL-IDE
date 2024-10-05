@@ -40,3 +40,5 @@ dist-ssr
 
 # Custom
 ignore/*
+*.bat
+project_content.txt
