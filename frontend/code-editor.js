@@ -46,7 +46,7 @@ const contents = {
       FOR r_employee IN c_employees LOOP
           DBMS_OUTPUT.PUT_LINE('Employee: ' || r_employee.first_name || ' ' || r_employee.last_name);
       END LOOP;
-  
+      
       -- Function call
       v_salary := ROUND(v_salary, 2);
   
@@ -79,12 +79,9 @@ function updateEditor() {
 }
 
 function updateLineNumbers() {
-  const lines = codeEditor.innerText.split('\n').length;
-  let lineNumbers = '';
-  for (let i = 1; i <= lines; i++) {
-    lineNumbers += `<div>${i}</div>`;
-  }
-  lineNumbersDiv.innerHTML = lineNumbers;
+  const lineNumbers = document.getElementById('line-numbers');
+  const lines = codeEditor.innerText.split('\n');
+  lineNumbers.innerHTML = lines.map((_, index) => `<div>${index + 1}</div>`).join('');
 }
 
 function syncScroll() {
