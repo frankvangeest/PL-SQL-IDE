@@ -37,11 +37,13 @@ Without to many frameworks and libraries. Just build it as needed.
   E.g. one database connection to a development database, and one database connection to a testing database.
 
 
-## Functional requirements part one
+## Primary Functional requirements
 * Connect to Oracle Database
   * Use the TNSNames.ora file to connect to the database.
 * Save and load SQL files
-* Code editor, to write, run and compile SQL queries, PL/SQL, etc.
+* Code editor
+  * create, edit and run SQL queries
+  * create, edit and compile PL-SQL
 * Browse database objects, such as tables, views, procedures, functions, etc.
 * Run queries and view results
 * Edit database objects, such as tables, views, procedures, functions, etc.
@@ -49,34 +51,61 @@ Without to many frameworks and libraries. Just build it as needed.
 * Drop existing database objects, such as tables, views, procedures, functions, etc.
 
 
+## Secondary Functional requirements
+* Syntax highlighting
+* Debugger
+* Compare database objects between two different database connections.
+
+
 ## User interface requirements
-* File menu
-  * New Playbook
-  * Open Playbook
-  * Save Playbook
-  * Save Playbook as...
-  * Exit
-* Edit menu
-  * Undo
-  * Redo
-* Run menu
-* View menu
-* Help menu
-* Playbooks, for running queries.
-* Editor, for writing, running and editing SQL queries, PL/SQL, etc.
-* PL-SQL /SQL Syntax highlighting
-* Project file tree
-* Line numbers in code editor
-* Tabs for switching between files
-* Sidebar for project file tree
-* Status bar
-* insert statement highlighting, when clicking on the value, the corresponding column lights up.
-* Dark theme
+
+* Application
+  * Dark theme
+  * Top Menu
+  * Left sidebar for files
+  * Code editor in the middle
+    * with tabs for switching between files
+    * with line numbers
+    * with syntax highlighting
+    * with PL-SQL and SQL code highlighting
+    * with insert statement highlighting, when clicking on the value, the corresponding column lights up.
+  * Right sidebar for output, results, data preview, etc.
+  * Status bar at the bottom
+  
 * Views:
   * Table data preview
   * Table data export
   * Table data import
   * Table data editor
+
+* Sidebar for project file tree
+  * Playbooks, for running queries.
+
+* Top Menu
+  * File menu
+    * New Playbook
+    * Open Playbook
+    * Save Playbook
+    * Save Playbook as...
+    * Exit
+  * Edit menu
+    * Undo
+    * Redo
+  * Run menu
+    * Run query
+    * Run PL/SQL
+  * View menu
+    * View results
+    * View output
+    * View PL/SQL execution plan
+    * View PL/SQL execution plan for last execution
+    * View PL/SQL execution plan for current execution
+  * Help menu
+    * About
+
+* Status bar
+
+
 
 ## Non-functional requirements
 * Performance: Non-blocking, fast response times.
@@ -85,9 +114,4 @@ Without to many frameworks and libraries. Just build it as needed.
 * Reliability: The application should be reliable, it should not crash and it should not lose data.
 * Maintainability: The application should be easy to maintain, modify and extend.
 * Portability: The application is currently only build for Windows, but should later also run on Linux and MacOS.
-
-
-Optional extras:
-* Debugger
-* Compare database objects between two different database connections.
 
