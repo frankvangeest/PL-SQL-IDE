@@ -37,26 +37,9 @@ Project State:
 
 Currently in Alpha.
 
-Tasks:
-- Oracle Database connections backend (WSA)
-- Running Queries backend (WIP)
-- Connection management frontend (WIP)
-- Text Editor frontend (MVP done)
-- Project file tree frontend (MVP done)
-- Saving (sql) Files backend (MVP done)
-- Loading (sql) Files backend (WIP)
-- Loading ini files backend
-    - User preferences (WIP)
-    - tnsnames.ora (WSA)
-- Saving user preferences backend (WIP)
-- Syntax highlighting
-  - Basic PL-SQL and SQL code highlighting (Done)
-  - insert statement highlighting, when clicking on the value, the corresponding column lights up.
+We have the following documentation:
 
-
-
-Legend:
-- WIP: Work In Progress
-- MVP: Minimal Viable (Sub)Product. (Usable in current project)
-- WSA: Working StandAlone POC (Needs to be integrated into this project)
+- [Roadmap](./docs/roadmap.md)
+- [Requirements](./docs/requirements.md)
+- [CodingGuidelines](./docs/coding-guidelines.md)
 
