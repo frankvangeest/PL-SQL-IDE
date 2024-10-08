@@ -1,7 +1,7 @@
-const codeEditor = document.getElementById('code');
+const codeEditor     = document.getElementById('code');
 const lineNumbersDiv = document.getElementById('line-numbers');
-const fileTree = document.getElementById('file-list');
-const tabs = document.getElementById('tabs');
+const fileTree       = document.getElementById('file-list');
+const tabs           = document.getElementById('tabs');
 
 let activeTab = 'file_1.sql'; // Track the active tab
 let sql_types,
@@ -71,7 +71,7 @@ function handleInput() {
 }
 
 function updateEditor() {
-  const code = codeEditor.innerText;
+  const code            = codeEditor.innerText;
   const highlightedCode = syntaxHighlight(code);
   codeEditor.innerHTML = highlightedCode;
   placeCaretAtEnd(codeEditor);
@@ -80,7 +80,7 @@ function updateEditor() {
 
 function updateLineNumbers() {
   const lineNumbers = document.getElementById('line-numbers');
-  const lines = codeEditor.innerText.split('\n');
+  const lines       = codeEditor.innerText.split('\n');
   lineNumbers.innerHTML = lines.map((_, index) => `<div>${index + 1}</div>`).join('');
 }
 
@@ -268,7 +268,7 @@ function createNewFile() {
 
     // Create a new editor tab for the given file
     const newTabId = 'tab' + (Object.keys(contents).length);
-    const newTab = document.createElement('button');
+    const newTab   = document.createElement('button');
     newTab.id = newTabId;
     newTab.className = 'tab-button';
     newTab.textContent = fileName;
@@ -276,7 +276,7 @@ function createNewFile() {
     
     // Add the new file before the + tab
     const newTabButton = document.getElementById('new-tab');
-    const fileTabs = document.getElementById('file-tabs');
+    const fileTabs     = document.getElementById('file-tabs');
     console.log('newTabButton', newTabButton);
     console.log('fileTabs', fileTabs);
     if (newTabButton && fileTabs) {
