@@ -3,8 +3,13 @@
 
 use std::env;
 use std::{thread, time};
-use tauri::{Window, State, AppHandle, Manager};
-use std::sync::Mutex;
+use tauri::{
+    Window, 
+    // State, 
+    Manager,
+    // AppHandle, 
+};
+// use std::sync::Mutex;
 use serde::Deserialize;
 use std::fs::{self, File};
 use std::io::prelude::*;
@@ -12,8 +17,14 @@ use std::path::{Path};
 
 
 mod oracle_db;
-use oracle_db::{connect_to_oracle, execute_query, display_result_set};
-use oracle::{Connection}; // Do not use oracle::Result here. It will messup std::Result;
+use oracle_db::{
+    connect_to_oracle, 
+    // connection_is_alive, 
+    execute_query, 
+    // display_result_set, 
+    // disconnect_from_oracle
+};
+// use oracle::{Connection}; // Do not use oracle::Result here. It will messup std::Result;
 
 
 #[derive(Deserialize, Debug)]
@@ -34,17 +45,12 @@ struct SQLPayload {
     sql: String,
 }
 
-pub struct DbConnection {
-    pub connection: Mutex<Option<Connection>>,
+#[derive(Deserialize, Debug)]
+struct QueryResultPayload {
+    header: Vec<String>,
+    rows: Vec<Vec<String>>,
 }
 
-impl DbConnection {
-    pub fn new() -> Self {
-        DbConnection {
-            connection: Mutex::new(None),
-        }
-    }
-}
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -76,48 +82,13 @@ fn save_content(payload: ContentPayload) -> Result<String, String> {
 }
 
 #[tauri::command]
-fn db_connect(state: State<DbConnection>, payload: ConnectionPayload) -> Result<String, String> {
+fn db_connect(payload: ConnectionPayload) -> Result<String, String> {
+    
     println!("db_connect(): '{:?}'", payload);
-    
-
-    let conn = Connection::connect(
-                            payload.username.as_str(), 
-                            payload.password.as_str(), 
-                            payload.database.as_str()
-                           ).map_err(|e| format!("Failed to connect: {}", e))?;
-    
-    // Lock the state and update the connection
-    let mut connection = state.connection.lock().unwrap();
-    *connection = Some(conn);
-
-
-
-    // let connection_result: Result<oracle::Connection, oracle::Error> = connect_to_oracle(payload.username.as_str(), payload.password.as_str(), payload.database.as_str());
-
-    // match connection_result {
-    //     Ok(my_connection) => {
-    //         println!("Connection to DB succeeded.");
-
-    //         // Get db version
-    //         let version_result: Result<(oracle::Version, String), oracle::Error> = my_connection.server_version();
-    //         match version_result {
-    //             Ok((server_ver,banner)) => {
-    //                 // println!("\nDatabase Server Version: {}", version);
-    //                 println!("\nDatabase Server Version: {}", server_ver);
-    //                 println!("\nServer Banner: {}\n", banner);
-    //             },
-    //             Err(e) => {
-    //                 println!("Connection to DB failed: {}", e);
-    //             }
-    //         }
-    //     },
-    //     Err(e) => {
-    //         // Use the custom conversion function to convert an oracle::Error to a String
-    //         // let error_string = error_to_string(e);
-    //         // println!("Operation failed: {}", error_string);
-    //         println!("Connection to DB failed: {}", e.to_string());
-    //     }
-    // }
+    match connect_to_oracle(payload.username.as_str(), payload.password.as_str(), payload.database.as_str()) {
+        Ok(message) => println!("{}", message),
+        Err(e) => println!("Error: {:?}", e), // Use {:?} to print the error
+    };
 
     Ok(format!("db_connect {}", "done"))
 }
@@ -149,46 +120,19 @@ fn db_connect(state: State<DbConnection>, payload: ConnectionPayload) -> Result<
 // }
 
 #[tauri::command]
-fn db_query(app_handle: tauri::AppHandle, state: State<DbConnection>, payload: SQLPayload) -> Result<String, String> {
+fn db_query(app_handle: tauri::AppHandle, payload: SQLPayload) -> Result<String, String> {
     println!("db_query(): '{:?}'", payload);
     app_handle.emit_all("backend-event", "db_query()").unwrap();
 
-    let mut connection = state.connection.lock().unwrap();
-    
-    // If a connection exists, close it
-    if let Some(conn) = connection.take() {
-        println!("Connection exists. execute_query...");
-        app_handle.emit_all("backend-event", "Connection exists. execute_query...").unwrap();
+    // Run the query and return the result set
+    let json = execute_query(payload.sql.as_str()).map_err(|e| format!("Query failed: {}", e))?;
 
-        // let sql = "select count(asg_id) cnt from aansluitingen";
-        let (column_names, rows) = execute_query(&conn, payload.sql.as_str())
-                                                            .map_err(|e| format!("Query failed: {}", e))?;
-    
-        // Print the column names
-        println!("{:?}", column_names.join(", "));
-        app_handle.emit_all("backend-event", column_names.join(", ")).unwrap();
-    
-        // Display the result set
-        // display_result_set(rows);
-        
-        for row in rows {
-            let mut row_str = String::new(); // Use a mutable String
-        
-            for (idx, val) in row.sql_values().iter().enumerate() {
-                if idx != 0 {
-                    row_str.push_str(", "); // Concatenate the comma separator
-                    print!(", ");
-                }
-        
-                row_str.push_str(&format!("{}", val)); // Append the value to the row string
-                print!("{}", val);
-            }
-        
-            app_handle.emit_all("backend-event", row_str).unwrap(); // Emit the row string
-            println!(); // Print a newline
-        }
-        
-    }
+    // Print the query result
+    let pretty_json = serde_json::from_str::<serde_json::Value>(&json)
+        .map(|v| serde_json::to_string_pretty(&v).unwrap_or_else(|_| json.clone()))
+        .unwrap_or_else(|_| json.clone());
+    println!("{}", pretty_json);
+    app_handle.emit_all("backend-event", json).unwrap();
 
     Ok(format!("db_query {}", "done"))
 }
@@ -198,7 +142,7 @@ fn main() {
     println!("Current directory: {}", current_dir.display());
 
     tauri::Builder::default()
-        .manage(DbConnection::new()) // Initialize the shared state
+        //.manage(DbConnection::new()) // Initialize the shared state
         .invoke_handler(tauri::generate_handler![
             do_with_progress,
             save_content,
