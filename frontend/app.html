@@ -1,0 +1,191 @@
+<!-- app.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Page App</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="db_data_viewer.css">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav id="topNavBar" class="navbar navbar-expand-lg">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+		        <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="fileMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="fileMenuDropdown">
+                        <a class="dropdown-item" href="#">New</a>
+                        <a class="dropdown-item" href="#">Open</a>
+                        <a class="dropdown-item" href="#">Save</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div>&nbsp;</div>
+        <div id="connection-status">Disconnected</div>
+        <div>&nbsp;</div>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <div>&nbsp;</div>
+    </nav>
+
+    <div class="container-fluid">
+        <!-- Left Sidebar with Icon Tabs -->
+        <div id="leftSideBar">
+            <i class="icon-tab fas fa-database"     id="dbTab"          title="Connection"  onclick="toggleTab('dbTab',       'leftSideBar', 'dbConnections','leftPanelContent')"></i>
+            <i class="icon-tab fas fa-folder-open"  id="filesTab"       title="Files"       onclick="toggleTab('filesTab',    'leftSideBar', 'projectFiles', 'leftPanelContent')"></i>
+            <i class="icon-tab fas fa-list"         id="dbObjectsTab"   title="DB Objects"  onclick="toggleTab('dbObjectsTab','leftSideBar', 'dbObjects',    'leftPanelContent')"></i>
+            <i class="icon-tab fas fa-terminal"     id="terminalTab"    title="Terminal"    ></i>
+        </div>
+        
+        <!-- Dynamic Panel for DB Connections and Project Files -->
+        <div id="leftPanelContent" class="pane" style="display:none">
+            <div id="dbConnections" class="tab-content" style="display:none">
+                <h5 class="p-2">Database Connections</h5>
+                <p class="p-2">Details about database connections...</p>
+            </div>
+            <div id="projectFiles" class="tab-content" style="display:none">
+                <h5 class="p-2">Project Files</h5>
+                <ul id="FileTree" class="">
+                    <li>
+                        File01
+                    </li>
+                    <li>
+                        File02
+                    </li>
+                    <li>
+                        File03
+                    </li>
+                </ul>
+            </div>
+            <div id="dbObjects" class="tab-content" style="display:none">
+                <h5 class="p-2">DB Objects</h5>
+                <ul id="dbObjectTree" class="">
+                    <li>
+                        Tables
+                    </li>
+                    <li>
+                        Package specs
+                    </li>
+                    <li>
+                        Package bodies
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Code Editor Area -->
+        <div id="codeEditor" class="pane">
+            <div id="editorContainer"></div>
+        </div>
+
+        <!-- Dynamic Panel for DB Connections and Project Files -->
+        <div id="rightPanelContent" class="pane" style="display:none">
+            <div id="edit" class="tab-content" style="display:none">
+                <button><i class="fas fa-plus icon-tab" id="newFileButton" title="New File"></i>&nbsp;New File</button>
+            </div>
+            <div id="settings" class="tab-content" style="display:none">
+                <h5 class="p-2">Settings</h5>
+                <p class="p-2">ToDo: Various config options.</p>
+            </div>
+            <div id="about" class="tab-content" style="display:none">
+                <h5 class="p-2">About</h5>
+                <p class="p-2">ToDo: General info about this applcation and the current version.</p>
+            </div>
+        </div>
+
+        <!-- Left Sidebar with Icon Tabs -->
+        <div id="rightSideBar">
+            <i class="icon-tab fas fa-file" id="edit-tab"     title="Edit"      onclick="toggleTab('edit-tab',    'rightSideBar', 'edit',    'rightPanelContent')"></i>
+            <i class="icon-tab fas fa-gear" id="settings-tab" title="Settings"  onclick="toggleTab('settings-tab','rightSideBar', 'settings','rightPanelContent')"></i>
+            <i class="icon-tab fas fa-info" id="about-tab"    title="About"     onclick="toggleTab('about-tab',   'rightSideBar', 'about',   'rightPanelContent')"></i>
+        </div>
+    </div>
+
+    <!-- Bottom Pane Tabs -->
+    <ul class="nav nav-tabs" id="bottomPanelTabs" role="tablist">
+        <li class="nav-item text-tab"               id="console-tab" onclick="toggleTab('console-tab', 'bottomPanelTabs', 'console','bottomPanelContent')">
+            <a class="nav-link active text-light"   id="console-tab-link" href="#console" role="tab">Console</a>
+        </li>
+        <li class="nav-item text-tab"               id="logs-tab"    onclick="toggleTab('logs-tab',    'bottomPanelTabs', 'logs',   'bottomPanelContent')">
+            <a class="nav-link text-light"          id="logs-tab-link" href="#logs"    role="tab">Logs</a>
+        </li>
+        <li class="nav-item text-tab"               id="query01-tab" onclick="toggleTab('query01-tab', 'bottomPanelTabs', 'query01','bottomPanelContent')">
+            <a class="nav-link text-light"          id="query01-tab-link" href="#query1"  role="tab">Query Result</a>
+        </li>
+    </ul>
+    <!-- Bottom Pane Content -->
+    <div class="tab-content" id="bottomPanelContent" style="display:none">
+        <div class="tab-content" id="console" role="tabpanel"  style="display:none">
+            <p class="p-2">Console messages will be displayed here.</p>
+        </div>
+        <div class="tab-content" id="logs" role="tabpanel"  style="display:none">
+            <p class="p-2">Log messages will be displayed here.</p>
+        </div>
+        <div class="tab-content" id="query01" role="tabpanel"  style="display:none">
+            <div id="query-result-01">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+            
+            <script src="db_data_viewer.js"></script>
+            <script>
+                // Example data
+                const data = {
+                    "column_names":["SERIALNUMBER","ACTIVE","MY_CRAPPY_ID","CREATED_ON","CREATED_BY","DESCRIPTION","NOTHING1","NOTHING2","NOTHING3","NOTHING4","NOTHING5","NOTHING6","MAKING_THE_ROW_LONGER","MAKING_THE_ROW_LONGER2","MAKING_THE_ROW_LONGER3"],
+                    "column_types":["Varchar2(18)","Varchar2(1)","Number(10, 0)","Date","Varchar2(32)","Varchar2(400)","Number(1, 0)","Varchar2(1)","Varchar2(1)","Varchar2(1)","Varchar2(1)","Varchar2(1)","Varchar2(400)","Varchar2(400)","Varchar2(400)"],
+                    "rows":[
+                        ["000000000000000001","J","1234","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000002","N","2345","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000003","J","3456","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000004","N","4567","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000005","J","9875","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000006","N","2346643","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000007","N","22456534","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000008","J","964854","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000009","N","238747","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000010","N","62377","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000011","J","23424","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000012","N","8756578","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000013","N","53425","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000014","N","467567456","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000015","N","243567","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000016","N","2734675","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000017","N","34","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000018","N","8976","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000019","N","237586","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                        ["000000000000000020","N","23455997","2024-12-11 00:44:52","Mr. Programmer","This is example data. :)","NULL","NULL","NULL","NULL","NULL","NULL","Making the row longer and longer and longer","Making the row longer and longer and longer","Making the row longer and longer and longer"],
+                    
+                    ]
+                };
+                
+                render_db_data('query-result-01', data);
+            </script>
+        </div>
+    </div>
+
+    <!-- Bottom Status Bar -->
+    <div id="bottomStatusBar">
+        <span id="lineCount">Lines: 0</span> | <span id="charCount">Characters Selected: 0</span>
+    </div>
+
+    <!-- Monaco Editor Integration -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.34.1/min/vs/loader.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script> -->
+
+    <!-- Custom js -->
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Data Display</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="db_data_viewer.css">
+</head>
+<body>
+    <div id="dynamic-content">
+        <!-- Dynamic content will be inserted here -->
+    </div>
+
+    <script src="db_data_viewer.js"></script>
+    <script>
+        // Example:
+        const data = [
+            { column1: 'Value1', column2: 'Value2', column3: 'Value3' },
+            { column1: 'Value4', column2: 'Value5', column3: 'Value6' }
+            // Add more data as needed
+        ];
+const data2 = {"column_names":["COL01","COL02"],"column_types":["Char(1)","Char(1)"],"rows":[["A","B"]]};
+
+const data3 = {"column_names":["EAN_SRN","VIRTUEEL","RLE_RLE_ID","ASG_ASG_ID","CONTRACT_VERMOGEN","TYPE_AANSLUITING","ASG_ID","ASG_TYPE","STATUS","VOLGNUMMER","SOORT","SPANNINGS_NIVEAU","LAST_UPDATE_DATE","LAST_UPDATED_BY","CREATION_DATE","CREATED_BY","GOS_NUMMER","GOS_OND_NUMMER","IND_FACTUUR_INFO","IND_PSEUDO","DEELPERCENTAGE","THRESHOLD","HERA_HOOFD_AANSLUITING","VERREKENMAAND","IND_SYS_DIENSTEN","IND_MEP","OMSCHRIJVING","MEETDRUK","TERUGLEVER_INDICATIE","NETGEBIED","ARTIKEL_1_LID23","REDEN_UIT_BEDRIJF","WIJZE_UIT_BEDRIJF","ALLOCATIEPUNT","BAG_ID"],"column_types":["Varchar2(18)","Varchar2(1)","Number(10, 0)","Number(10, 0)","Number(4, 0)","Number(10, 0)","Number(10, 0)","Varchar2(10)","Number(10, 0)","Number(3, 0)","Number(10, 0)","Number(10, 0)","Date","Varchar2(30)","Date","Varchar2(30)","Number(4, 0)","Varchar2(5)","Varchar2(1)","Varchar2(1)","Number(0, -127)","Number(10, 0)","Number(8, 0)","Number(2, 0)","Varchar2(1)","Varchar2(1)","Varchar2(240)","Number(0, -127)","Number(10, 0)","Varchar2(10)","Varchar2(1)","Number(10, 0)","Number(10, 0)","Number(10, 0)","Number(16, 0)"],"rows":[["871687800001259105","N","NULL","NULL","NULL","827","144162","ELG","161","1","NULL","25","2024-09-06 20:50:36","RUVO12","2015-08-24 13:40:52","JONO1","NULL","NULL","N","N","NULL","NULL","NULL","4","NULL","NULL","NULL","NULL","6355","WEI","N","NULL","NULL","19379","503010000063935"],["871687800001259112","N","NULL","NULL","NULL","827","144163","ELG","161","1","NULL","25","2018-03-15 12:06:34","INF","2015-08-24 13:41:09","JONO1","NULL","NULL","N","N","NULL","NULL","NULL","4","NULL","NULL","NULL","NULL","6353","WEI","N","NULL","NULL","19379","NULL"]]}
+
+
+
+	render_db_data('dynamic-content', data3);
+    </script>
+</body>
+</html>

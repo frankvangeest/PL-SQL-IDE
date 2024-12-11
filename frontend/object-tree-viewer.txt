@@ -1,0 +1,16 @@
+select ojb.object_type, ojb.object_name
+from all_objects ojb
+where ojb.object_type = 'TABLE'
+order by ojb.object_type, ojb.object_name
+
+select TO_CLOB (json_arrayagg(json_object(ojb.object_type VALUE '"' || ojb.object_name || '"' FORMAT JSON))) A
+from   all_objects ojb 
+where  ojb.object_type = 'TABLE'
+order by ojb.object_type, ojb.object_name
+;
+
+select json_arrayagg(json_object(ojb.object_type VALUE '"' || ojb.object_name || '"' FORMAT JSON) returning clob) json_clob
+from   all_objects ojb 
+--where  ojb.object_type = 'TABLE'
+order by ojb.object_type, ojb.object_name
+;

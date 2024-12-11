@@ -1,0 +1,19 @@
+.data-type-number {
+  text-align: right;
+}
+
+.data-type-date {
+  min-width: 165px;
+  max-width: 165px;
+  width: 165px;
+}
+
+.data-type-text {
+  max-width: 168px;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: inherit;
+}

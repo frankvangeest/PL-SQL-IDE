@@ -9,7 +9,6 @@ use tauri::{
     Manager,
     // AppHandle, 
 };
-// use std::sync::Mutex;
 use serde::Deserialize;
 use std::fs::{self, File};
 use std::io::prelude::*;
@@ -24,7 +23,7 @@ use oracle_db::{
     // display_result_set, 
     // disconnect_from_oracle
 };
-// use oracle::{Connection}; // Do not use oracle::Result here. It will messup std::Result;
+// Do not use oracle::Result here. It will messup std::Result;
 
 
 #[derive(Deserialize, Debug)]
@@ -43,12 +42,6 @@ struct ConnectionPayload {
 #[derive(Deserialize, Debug)]
 struct SQLPayload {
     sql: String,
-}
-
-#[derive(Deserialize, Debug)]
-struct QueryResultPayload {
-    header: Vec<String>,
-    rows: Vec<Vec<String>>,
 }
 
 
@@ -127,14 +120,17 @@ fn db_query(app_handle: tauri::AppHandle, payload: SQLPayload) -> Result<String,
     // Run the query and return the result set
     let json = execute_query(payload.sql.as_str()).map_err(|e| format!("Query failed: {}", e))?;
 
+    // Send the query result to the frontend
+    app_handle.emit_all("backend-event", json.clone()).unwrap();
+
     // Print the query result
     let pretty_json = serde_json::from_str::<serde_json::Value>(&json)
         .map(|v| serde_json::to_string_pretty(&v).unwrap_or_else(|_| json.clone()))
         .unwrap_or_else(|_| json.clone());
     println!("{}", pretty_json);
-    app_handle.emit_all("backend-event", json).unwrap();
+    
 
-    Ok(format!("db_query {}", "done"))
+    Ok(format!("db_query {}", json))
 }
 
 fn main() {
